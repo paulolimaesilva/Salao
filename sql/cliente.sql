@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS `cliente` (
 INSERT INTO `cliente` (`codigo`, `nome`, `telefone`, `email`, `endereco`) VALUES
 (1, 'Paulo Ricardo', '5192594997', 'paulo@koaladigital.net', '');
 
+select * from cliente where CPF = '123';
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
