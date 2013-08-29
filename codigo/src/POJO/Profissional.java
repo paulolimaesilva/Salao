@@ -2,22 +2,20 @@ package POJO;
 
 public class Profissional {
 
-	private int codigo;
 	private String nome;
 	private String telefone;
 	private String endereco;
 	private String email;
 	private String CPF;
 
-	public Profissional(int codigo, String nome, String telefone,
-			String endereco, String email, String cPF) {
+	public Profissional(String nome, String telefone, String endereco,
+			String email, String CPF) {
 		super();
-		this.codigo = codigo;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.email = email;
-		CPF = cPF;
+		this.CPF = CPF;
 	}
 
 	public String getNome() {
@@ -60,15 +58,11 @@ public class Profissional {
 		CPF = cPF;
 	}
 
-	public int getCodigo() {
-		return codigo;
-	}
-
 	@Override
 	public String toString() {
-		return "Profissional [codigo=" + codigo + ", nome=" + nome
-				+ ", telefone=" + telefone + ", endereco=" + endereco
-				+ ", email=" + email + ", CPF=" + CPF + "]";
+		return "Profissional [nome=" + nome + ", telefone=" + telefone
+				+ ", endereco=" + endereco + ", email=" + email + ", CPF="
+				+ CPF + "]";
 	}
 
 }

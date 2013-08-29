@@ -1,9 +1,5 @@
 package DAO;
 
-import com.mysql.jdbc.*;
-
-import POJO.Cliente;
-import POJO.Profissional;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,38 +7,80 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import POJO.Cliente;
+import POJO.Produto;
+import POJO.Profissional;
+import POJO.Atendimento;
+
 public class SalaoDAO {
-	
-	private Connection con;  
-	private Statement comando;  
-		
-	public Cliente findClienteByNome(String nome){
+
+	public void insertCliente(Cliente cliente) {
+		String cmd = "INSERT INTO cliente (`nome`, `telefone`, `email`, `endereco`) VALUES (?, ?, ?, ?)";
+
+		Connection db = null;
+		PreparedStatement st = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(1, cliente.getNome());
+			st.setString(2, cliente.getTelefone());
+			st.setString(3, cliente.getEmail());
+			st.setString(4, cliente.getEndereco());
+			int r = st.executeUpdate();
+
+			if (r != 1) {
+				throw new RuntimeException("Erro ao inserir Cliente!");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public Cliente findClienteByNome(String nome) {
 		Cliente cliente = null;
-		String cmd = "select * from cliente where nome= ?";
-		
+		String cmd = "select * from cliente where nome = ?";
+
 		Connection db = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
-		try {
-			Properties props = new Properties();
-			props.load(new FileInputStream("Salao.properties"));
-			String url = props.getProperty("url");
 
-			db = DriverManager.getConnection(url, props);
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
 
 			st = db.prepareStatement(cmd);
 			st.setString(1, nome);
 			rs = st.executeQuery();
 
 			while (rs.next()) {
-				
-				int contaId = rs.getInt(1);
+				// copiar dados para POJO
 				String nomeBD = rs.getString("nome");
 				String telefone = rs.getString(3);
 				String email = rs.getString(4);
 				String endereco = rs.getString(5);
-				cliente = new Cliente(contaId, nomeBD, telefone, email, endereco);
+				cliente = new Cliente(nomeBD, telefone, email,
+						endereco);
 			}
 
 		} catch (Exception e) {
@@ -53,11 +91,9 @@ public class SalaoDAO {
 					rs.close();
 				}
 				if (st != null) {
-
 					st.close();
 				}
 				if (db != null) {
-
 					db.close();
 				}
 			} catch (Exception e2) {
@@ -66,25 +102,329 @@ public class SalaoDAO {
 		}
 		return cliente;
 	}
-	
-	public Cliente findClienteByCodigo(int codigo){
-		//TODO fazer o método de consulta por codigo
-	return null;
-	}
-	
-	public Profissional findProfissionalByNome(String nome){
-		//TODO fazer o método de consulta por nome
-	return null;
-	}
-	
-	public Profissional findProfissionalByCPF(String CPF){
-		//TODO fazer o método de consulta por CPF
-	return null;
-	}
-	
-	public Profissional findProfissionalByCodigo(String codigo){
-		//TODO fazer o método de consulta por Codigo
-	return null;
+
+	public void insertProfissional(Profissional prof) {
+		String cmd = "INSERT INTO `profissional` (`nome`, `Telefone`, `endereco`, `email`, `CPF`) VALUES (?,?,?,?,?)";
+
+		Connection db = null;
+		PreparedStatement st = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(1, prof.getNome());
+			st.setString(2, prof.getTelefone());
+			st.setString(3, prof.getEndereco());
+			st.setString(4, prof.getEmail());
+			st.setString(5, prof.getCPF());
+			int r = st.executeUpdate();
+
+			if (r != 1) {
+				throw new RuntimeException("Erro ao inserir Profissional!");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
+	public Profissional findProfissionalByNome(String nome) {
+		Profissional prof = null;
+		String cmd = "select * from profissional where nome = ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(1, nome);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				String nomeBD = rs.getString("nome");
+				String telefone = rs.getString(3);
+				String email = rs.getString(4);
+				String endereco = rs.getString(5);
+				String CPF = rs.getString(6);
+				prof = new Profissional(nomeBD, telefone, endereco, email, CPF);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return prof;
+	}
+
+	public Profissional findProfissionalByCPF(String CPF) {
+		Profissional prof = null;
+		String cmd = "select * from profissional where cpf = ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(1, CPF);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				String nome = rs.getString(2);
+				String telefone = rs.getString(3);
+				String email = rs.getString(4);
+				String endereco = rs.getString(5);
+				String CPFBD = rs.getString("cpf");
+				prof = new Profissional(nome, telefone, endereco, email, CPFBD);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return prof;
+	}
+
+	public void insertProduto(Produto produto) {
+		String cmd = "INSERT INTO `produto` (`codigoDeBarras`, `nome`, `valorDeCusto`, `valorDeVenda`, `estoque`, `estoqueminimo`) VALUES (?,?,?,?,?,?)";
+
+		Connection db = null;
+		PreparedStatement st = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setInt(1, produto.getCodigoDeBarras());
+			st.setString(2, produto.getNome());
+			st.setDouble(3, produto.getValorDeCusto());
+			st.setDouble(4, produto.getValorDeVenda());
+			st.setInt(5, produto.getEstoque());
+			st.setInt(6, produto.getEstoqueMinimo());
+			int r = st.executeUpdate();
+
+			if (r != 1) {
+				throw new RuntimeException("Erro ao inserir Produto!");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public Produto findProdutoByCodigoDeBarras(int codigoDeBarras) {
+		Produto produto = null;
+		String cmd = "select * from produto where codigoDeBarras = ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setInt(1, codigoDeBarras);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				int codigoDeBarrasBD = rs.getInt("codigoDeBarras");
+				String nome = rs.getString(3);
+				double valorDeCusto = rs.getDouble(4);
+				double valorDeVenda = rs.getDouble(5);
+				int estoque = rs.getInt(6);
+				int estoqueMinimo = rs.getInt(7);
+				produto = new Produto(codigoDeBarrasBD, nome, valorDeCusto,
+						valorDeVenda, estoque, estoqueMinimo);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return produto;
+	}
+
+	public Produto findProdutoByNome(String nome) {
+		Produto produto = null;
+		String cmd = "select * from produto where nome = ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(1, nome);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				int codigoDeBarras = rs.getInt(1);
+				String nomeBD = rs.getString("nome");
+				double valorDeCusto = rs.getDouble(4);
+				double valorDeVenda = rs.getDouble(5);
+				int estoque = rs.getInt(6);
+				int estoqueMinimo = rs.getInt(7);
+				produto = new Produto(codigoDeBarras, nomeBD, valorDeCusto,
+						valorDeVenda, estoque, estoqueMinimo);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return produto;
+	}
+
+	public void insertAtendimento(Atendimento atend) {
+		String cmd = "INSERT INTO `atendimento` (`codCliente`, `codProfissional`, `codVendaProdutos`, `data`, `valorFinal`) VALUES (?,?,?,now(),?)";
+		Connection db = null;
+		PreparedStatement st = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setInt(1, atend.getCodCliente());
+			st.setInt(2, atend.getCodProfissional());
+			st.setInt(3, atend.getCodVendaProdutos());
+			st.setDouble(4, atend.getValorFinal());
+			int r = st.executeUpdate();
+
+			if (r != 1) {
+				throw new RuntimeException("Erro ao inserir Produto!");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	
 }
+

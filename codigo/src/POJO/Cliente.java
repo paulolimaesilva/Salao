@@ -2,15 +2,13 @@ package POJO;
 
 public class Cliente {
 
-	private int codigo;
 	private String nome;
 	private String telefone;
 	private String email;
 	private String endereco;
 
-	public Cliente(int codigo, String nome, String telefone, String email,
+	public Cliente(String nome, String telefone, String email,
 			String endereco) {
-		this.codigo = codigo;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
@@ -51,7 +49,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [codigo=" + codigo + ", nome=" + nome + ", telefone="
+		return "Cliente [nome=" + nome + ", telefone="
 				+ telefone + ", email=" + email + ", endereco=" + endereco
 				+ "]";
 	}
