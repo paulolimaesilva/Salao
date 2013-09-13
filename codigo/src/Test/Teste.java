@@ -22,6 +22,12 @@ public class Teste {
 		
 //		Produto prod = new Produto(789, "texte de conexão DAO", 10, 15, 100, 30);
 //		dao.insertProduto(prod);
+		
+		
+		Cliente cliente;
+		System.out.println(dao.findClienteByNome("Teste de Conexão DAO"));
+		//System.out.println(cliente.toString());
+		
 	}
 
 }

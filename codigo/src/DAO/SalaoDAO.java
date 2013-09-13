@@ -56,7 +56,7 @@ public class SalaoDAO {
 
 	public Cliente findClienteByNome(String nome) {
 		Cliente cliente = null;
-		String cmd = "select * from cliente where nome = ?";
+		String cmd = "SELECT * FROM cliente WHERE nome LIKE ?";
 
 		Connection db = null;
 		PreparedStatement st = null;
@@ -146,7 +146,7 @@ public class SalaoDAO {
 
 	public Profissional findProfissionalByNome(String nome) {
 		Profissional prof = null;
-		String cmd = "select * from profissional where nome = ?";
+		String cmd = "SELECT * FROM profissional WHERE nome LIKE ?";
 
 		Connection db = null;
 		PreparedStatement st = null;
@@ -195,7 +195,7 @@ public class SalaoDAO {
 
 	public Profissional findProfissionalByCPF(String CPF) {
 		Profissional prof = null;
-		String cmd = "select * from profissional where cpf = ?";
+		String cmd = "select * from profissional where cpf like ?";
 
 		Connection db = null;
 		PreparedStatement st = null;
@@ -286,7 +286,7 @@ public class SalaoDAO {
 
 	public Produto findProdutoByCodigoDeBarras(int codigoDeBarras) {
 		Produto produto = null;
-		String cmd = "select * from produto where codigoDeBarras = ?";
+		String cmd = "select * from produto where codigoDeBarras like ?";
 
 		Connection db = null;
 		PreparedStatement st = null;
@@ -337,7 +337,7 @@ public class SalaoDAO {
 
 	public Produto findProdutoByNome(String nome) {
 		Produto produto = null;
-		String cmd = "select * from produto where nome = ?";
+		String cmd = "select * from produto where nome like ?";
 
 		Connection db = null;
 		PreparedStatement st = null;
