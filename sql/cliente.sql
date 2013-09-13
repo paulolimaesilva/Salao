@@ -26,21 +26,21 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `cliente`
 --
 
-CREATE TABLE IF NOT EXISTS `cliente` (
-  `codigo` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `nome` varchar(200) NOT NULL,
-  `telefone` varchar(12) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `endereco` varchar(300) NOT NULL,
-  PRIMARY KEY (`codigo`),
-  UNIQUE KEY `codigo` (`codigo`)
+CREATE TABLE IF NOT EXISTS cliente (
+  codigo bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  nome varchar(200) NOT NULL,
+  telefone varchar(12) NOT NULL,
+  email varchar(200) NOT NULL,
+  endereco varchar(300) NOT NULL,
+  PRIMARY KEY (codigo),
+  UNIQUE KEY codigo (codigo)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Tabela de cadastro de cliente' AUTO_INCREMENT=3 ;
 
 --
--- Extraindo dados da tabela `cliente`
+-- Extraindo dados da tabela cliente
 --
 
-INSERT INTO `cliente` (`codigo`, `nome`, `telefone`, `email`, `endereco`) VALUES
+INSERT INTO cliente (codigo, nome, telefone, email, endereco) VALUES
 (1, 'Paulo Ricardo', '5192594997', 'paulo@koaladigital.net', '');
 
 select * from cliente where CPF = '123';
