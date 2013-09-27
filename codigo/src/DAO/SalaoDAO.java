@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -7,10 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import POJO.Cliente;
-import POJO.Produto;
-import POJO.Profissional;
-import POJO.Atendimento;
+import pojo.Atendimento;
+import pojo.Cliente;
+import pojo.Produto;
+import pojo.Profissional;
+
 
 public class SalaoDAO {
 
