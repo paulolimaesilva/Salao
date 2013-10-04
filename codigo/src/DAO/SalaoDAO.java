@@ -103,6 +103,55 @@ public class SalaoDAO {
 		}
 		return cliente;
 	}
+	
+	public Cliente findClienteByTelefone(String telefone) {
+		Cliente cliente = null;
+		String cmd = "SELECT * FROM cliente WHERE telefone LIKE ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setString(3, telefone);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				String nome = rs.getString(2);
+				String telefoneBD = rs.getString(3);
+				String email = rs.getString(4);
+				String endereco = rs.getString(5);
+				cliente = new Cliente(nome, telefoneBD, email,
+						endereco);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return cliente;
+	}
 
 	public void insertProfissional(Profissional prof) {
 		String cmd = "INSERT INTO `profissional` (`nome`, `Telefone`, `endereco`, `email`, `CPF`) VALUES (?,?,?,?,?)";

@@ -10,13 +10,16 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import pojo.Cliente;
 import gui.actions.CadastrarClienteAction;
+import gui.actions.CadastrarClienteLimparAction;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.AbstractAction;
@@ -35,8 +38,18 @@ public class CadastrarClientePanel extends JPanel {
 	private JTextField textTelefone;
 	private JTextField textEmail;
 	private JTextField textEndereco;
-	private final Action action = new SwingAction();
+
+	private JFrame frame;
 	
+	private CardLayout card;
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public CardLayout getCard() {
+		return card;
+	}
 		
 	public Cliente getCliente() {
 		return new Cliente(textNome.getText(),textTelefone.getText(),textEmail.getText(),textEndereco.getText());
@@ -79,7 +92,11 @@ public class CadastrarClientePanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+//		setIconImage(getToolkit().createImage(getClass().getResource("/world.gif"))); 
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		add(verticalStrut, "8, 2, 1, 9");
@@ -116,15 +133,6 @@ public class CadastrarClientePanel extends JPanel {
 		add(textEndereco, "6, 10, fill, default");
 		textEndereco.setColumns(10);
 		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnLimpar.setAction(action);
-		btnLimpar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
-		add(btnLimpar, "4, 14");
-		
 		JButton btnCadastrar = new JButton(new CadastrarClienteAction(this));
 		btnCadastrar.setBackground(UIManager.getColor("Button.background"));
 		btnCadastrar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
@@ -132,19 +140,13 @@ public class CadastrarClientePanel extends JPanel {
 		btnCadastrar.setMnemonic(KeyEvent.VK_C);
 		add(btnCadastrar, "6, 14");
 		
+		JButton btnLimpar = new JButton(new CadastrarClienteLimparAction(this));
+		btnLimpar.setBackground(UIManager.getColor("Button.background"));
+		btnLimpar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
+		btnLimpar.setToolTipText("Cadastrar Cliente");
+		btnLimpar.setMnemonic(KeyEvent.VK_C);
+		add(btnLimpar, "6, 16");
+		
 
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "Limpar");
-			putValue(SHORT_DESCRIPTION, "Clique para limpar os campos");
-		}
-		public void actionPerformed(ActionEvent e) {
-			try{
-				clear();
-			}catch (Exception e1) {
-				JOptionPane.showMessageDialog(null, "Não foi possível limpar os campos");
-			}
-		}
 	}
 }

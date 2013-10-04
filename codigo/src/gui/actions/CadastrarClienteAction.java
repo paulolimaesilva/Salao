@@ -8,27 +8,14 @@ import dao.SalaoDAO;
 import gui.CadastrarClientePanel;
 import pojo.Cliente;
 
-/**
- * 
- * @author marco.mangan@gmail.com
- *
- */
 public class CadastrarClienteAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
+
 	private CadastrarClientePanel panel;
 
-	/**
-	 * 
-	 * @param panel
-	 */
 	public CadastrarClienteAction(CadastrarClientePanel panel) {
 		super("Cadastrar");
 		this.panel = panel;
