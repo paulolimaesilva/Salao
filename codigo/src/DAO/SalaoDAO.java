@@ -1,5 +1,6 @@
 package dao;
 
+import java.awt.List;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -473,6 +474,10 @@ public class SalaoDAO {
 				e2.printStackTrace();
 			}
 		}
+	}
+	
+	public List<Atendimento> findAtendimentoByCliente(Cliente cliente){
+		
 	}
 	
 	

@@ -28,8 +28,8 @@ public class BuscarClientePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblBuscarClientePor = new JLabel("Buscar Cliente por:");
-		lblBuscarClientePor.setVerticalAlignment(SwingConstants.CENTER);
 		lblBuscarClientePor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBuscarClientePor.setVerticalAlignment(SwingConstants.CENTER);
 		lblBuscarClientePor.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
 		add(lblBuscarClientePor, BorderLayout.NORTH);
 		
@@ -92,26 +92,28 @@ public class BuscarClientePanel extends JPanel {
 		
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
-		panel.add(lblNome, "2, 4, right, default");
+		panel.add(lblNome, "8, 4, right, default");
 		
 		textNome = new JTextField();
-		panel.add(textNome, "4, 4, 7, 1, fill, default");
+		panel.add(textNome, "10, 4, 14, 1, fill, default");
 		textNome.setColumns(10);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
-		panel.add(lblTelefone, "2, 6");
+		panel.add(lblTelefone, "8, 6, right, default");
 		
 		textTelefone = new JTextField();
 		textTelefone.setText("");
-		panel.add(textTelefone, "4, 6, 7, 1, fill, default");
+		panel.add(textTelefone, "10, 6, 14, 1, fill, default");
 		textTelefone.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		panel.add(btnBuscar, "8, 8");
+		btnBuscar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
+		panel.add(btnBuscar, "10, 8");
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		panel.add(btnCancelar, "8, 10");
+		btnCancelar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
+		panel.add(btnCancelar, "14, 8");
 	}
 	
 	public String getNome() {

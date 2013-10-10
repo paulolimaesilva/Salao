@@ -1,21 +1,37 @@
 package pojo;
 
+import java.util.Date;
+
+
+
 public class Atendimento {
 	private int codCliente;
 	private int codProfissional;
 	private int codVendaProdutos;
 	private double valorFinal;
+	private Date data;
 	
 	public Atendimento(int codCliente, int codProfissional,
-			int codVendaProdutos, double valorFinal) {
+			int codVendaProdutos, double valorFinal, Date data) {
 		super();
 		this.codCliente = codCliente;
 		this.codProfissional = codProfissional;
 		this.codVendaProdutos = codVendaProdutos;
 		this.valorFinal = valorFinal;
+		this.data = data;
 	}
 
 	
+	public Date getData() {
+		return data;
+	}
+
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+
 	public int getCodCliente() {
 		return codCliente;
 	}

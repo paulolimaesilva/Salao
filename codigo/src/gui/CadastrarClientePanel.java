@@ -29,6 +29,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
 import javax.swing.UIManager;
+import javax.swing.SwingConstants;
 
 public class CadastrarClientePanel extends JPanel {
 	
@@ -75,7 +76,7 @@ public class CadastrarClientePanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(35dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -95,6 +96,12 @@ public class CadastrarClientePanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblTopo = new JLabel("Cadastro de Cliente");
+		lblTopo.setVerticalAlignment(SwingConstants.CENTER);
+		lblTopo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTopo.setFont(new Font("Segoe UI Light", Font.PLAIN, 20));
+		add(lblTopo, "4, 2, 3, 1");
 		
 //		setIconImage(getToolkit().createImage(getClass().getResource("/world.gif"))); 
 		
@@ -133,19 +140,19 @@ public class CadastrarClientePanel extends JPanel {
 		add(textEndereco, "6, 10, fill, default");
 		textEndereco.setColumns(10);
 		
-		JButton btnCadastrar = new JButton(new CadastrarClienteAction(this));
-		btnCadastrar.setBackground(UIManager.getColor("Button.background"));
-		btnCadastrar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
-		btnCadastrar.setToolTipText("Cadastrar Cliente");
-		btnCadastrar.setMnemonic(KeyEvent.VK_C);
-		add(btnCadastrar, "6, 14");
-		
 		JButton btnLimpar = new JButton(new CadastrarClienteLimparAction(this));
 		btnLimpar.setBackground(UIManager.getColor("Button.background"));
 		btnLimpar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
 		btnLimpar.setToolTipText("Cadastrar Cliente");
-		btnLimpar.setMnemonic(KeyEvent.VK_C);
-		add(btnLimpar, "6, 16");
+		btnLimpar.setMnemonic(KeyEvent.VK_ESCAPE);
+		add(btnLimpar, "4, 14");
+		
+		JButton btnCadastrar = new JButton(new CadastrarClienteAction(this));
+		btnCadastrar.setBackground(UIManager.getColor("Button.background"));
+		btnCadastrar.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
+		btnCadastrar.setToolTipText("Cadastrar Cliente");
+		btnCadastrar.setMnemonic(KeyEvent.VK_ENTER);
+		add(btnCadastrar, "6, 14");
 		
 
 	}
