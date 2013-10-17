@@ -1,17 +1,20 @@
 package dao;
 
-import java.awt.List;
+import java.util.List;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import pojo.Atendimento;
 import pojo.Cliente;
 import pojo.Produto;
 import pojo.Profissional;
+import pojo.Agenda; 
 
 
 public class SalaoDAO {
@@ -154,6 +157,56 @@ public class SalaoDAO {
 		return cliente;
 	}
 
+	public Cliente findClienteByCodigo(int codigo) {
+		Cliente cliente = null;
+		String cmd = "SELECT * FROM cliente WHERE codigo LIKE ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setInt(1, codigo);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				// copiar dados para POJO
+				int codigoBD = rs.getInt(1);
+				String nome = rs.getString(2);
+				String telefone = rs.getString(3);
+				String email = rs.getString(4);
+				String endereco = rs.getString(5);
+				cliente = new Cliente(codigoBD, nome, telefone, email,
+						endereco);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return cliente;
+	}
+	
 	public void insertProfissional(Profissional prof) {
 		String cmd = "INSERT INTO `profissional` (`nome`, `Telefone`, `endereco`, `email`, `CPF`) VALUES (?,?,?,?,?)";
 
@@ -271,6 +324,55 @@ public class SalaoDAO {
 				String endereco = rs.getString(5);
 				String CPFBD = rs.getString("cpf");
 				prof = new Profissional(nome, telefone, endereco, email, CPFBD);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return prof;
+	}
+	
+	public Profissional findProfissionalByCodigo(int codigo) {
+		Profissional prof = null;
+		String cmd = "select * from profissional where codigo like ?";
+
+		Connection db = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("salao.properties"));
+			String url = prop.getProperty("url");
+
+			db = DriverManager.getConnection(url, prop);
+
+			st = db.prepareStatement(cmd);
+			st.setInt(1, codigo);
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+				int codigoBD = rs.getInt("codigo");
+				String nome = rs.getString(2);
+				String telefone = rs.getString(3);
+				String email = rs.getString(4);
+				String endereco = rs.getString(5);
+				String CPF = rs.getString(6);
+				prof = new Profissional(codigoBD, nome, telefone, endereco, email, CPF);
 			}
 
 		} catch (Exception e) {
@@ -476,8 +578,56 @@ public class SalaoDAO {
 		}
 	}
 	
-	public List<Atendimento> findAtendimentoByCliente(Cliente cliente){
-		
+	public List <Agenda> findAgendaDiaria(Profissional p){
+		String cmd = "select * from agenda where profissional= ?";
+        List<Agenda> agenda = new ArrayList<Agenda>();
+        
+        Connection db = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+                Properties props = new Properties();
+                props.load(new FileInputStream("salao.properties"));
+                String url = props.getProperty("url");
+
+                db = DriverManager.getConnection(url, props);
+
+                st = db.prepareStatement(cmd);
+                st.setInt(1, 1);
+                rs = st.executeQuery();
+
+                while (rs.next()) {
+                        int id = rs.getInt(1);
+                        int codProf = rs.getInt(2);
+                        int codCliente = rs.getInt(3);
+                        Date data = rs.getDate(4);
+                        String hora = rs.getString(5);
+                        
+                        Profissional profi = findProfissionalByCodigo(codProf);
+                        Cliente cliente = findClienteByCodigo(codCliente);
+
+                        agenda.add(new Agenda(id, profi, cliente, data, hora));
+                }
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        } finally {
+                try {
+                        if (rs != null) {
+                                rs.close();
+                        }
+                        if (st != null) {
+                                st.close();
+                        }
+                        if (db != null) {
+                                db.close();
+                        }
+                } catch (Exception e2) {
+                        e2.printStackTrace();
+                }
+        }
+        return agenda;
 	}
 	
 	

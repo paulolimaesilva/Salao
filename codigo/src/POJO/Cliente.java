@@ -2,6 +2,7 @@ package pojo;
 
 public class Cliente {
 
+	private int codigo;
 	private String nome;
 	private String telefone;
 	private String email;
@@ -9,6 +10,15 @@ public class Cliente {
 
 	public Cliente(String nome, String telefone, String email,
 			String endereco) {
+		this.nome = nome;
+		this.telefone = telefone;
+		this.email = email;
+		this.endereco = endereco;
+	}
+	
+	public Cliente(int codigo, String nome, String telefone, String email,
+			String endereco) {
+		this.codigo = codigo;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;

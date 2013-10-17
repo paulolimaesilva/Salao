@@ -2,6 +2,7 @@ package pojo;
 
 public class Profissional {
 
+	private int codigo;
 	private String nome;
 	private String telefone;
 	private String endereco;
@@ -11,6 +12,17 @@ public class Profissional {
 	public Profissional(String nome, String telefone, String endereco,
 			String email, String CPF) {
 		super();
+		this.nome = nome;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.email = email;
+		this.CPF = CPF;
+	}
+	
+	public Profissional(int codigo, String nome, String telefone, String endereco,
+			String email, String CPF) {
+		super();
+		this.codigo = codigo;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.endereco = endereco;
