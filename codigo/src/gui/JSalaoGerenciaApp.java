@@ -25,6 +25,8 @@ public class JSalaoGerenciaApp {
 	private CardLayout card;
 	private CadastrarClientePanel cdClientePanel = new CadastrarClientePanel();
 	private BuscarClientePanel fdClientePanel = new BuscarClientePanel();
+
+
 	
 	/**
 	 * Launch the application.
@@ -54,37 +56,74 @@ public class JSalaoGerenciaApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		//frame.setIconImage(Toolkit.getDefaultToolkit().getImage(JSalaoGerenciaApp.class.getResource("/Salao/gui/globo.gif")));
-		frame.setBounds(100, 100, 600, 600);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+                JSalaoGerenciaApp.class
+                                .getResource("/globo.gif")));frame.setBounds(100, 100, 600, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		card = new CardLayout(0, 0);
 		frame.getContentPane().setLayout(card);
 
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		frame.getContentPane().add(panel, "name_6126640247321");
 
-		panel.add(cdClientePanel);
 
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		frame.getContentPane().add(panel_1, "name_6128366176959");
+		frame.getContentPane().add(panel_1, "name_6126640247321");
 
-		panel_1.add(fdClientePanel);
+		panel_1.add(cdClientePanel);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
+		frame.getContentPane().add(panel_2, "name_6128366176959");
+
+		panel_2.add(fdClientePanel);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		JMenu mnNewMenu = new JMenu("Cliente");
-		menuBar.add(mnNewMenu);
+		JMenu mnCliente = new JMenu("Cliente");
+		menuBar.add(mnCliente);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
 		mntmNewMenuItem_1.setAction(action);
-		mnNewMenu.add(mntmNewMenuItem_1);
+		mnCliente.add(mntmNewMenuItem_1);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
 		mntmNewMenuItem.setAction(action_1);
-		mnNewMenu.add(mntmNewMenuItem);
+		mnCliente.add(mntmNewMenuItem);
+		
+		JMenu mnProfissional = new JMenu("Profissional");
+		menuBar.add(mnProfissional);
+
+		JMenuItem mntmProfissionalItem_1 = new JMenuItem("New menu item");
+		mntmNewMenuItem_1.setAction(action_2);
+		mnCliente.add(mntmNewMenuItem_1);
+
+		JMenuItem mntmProfissionalItem = new JMenuItem("New menu item");
+		mntmNewMenuItem.setAction(action_3);
+		mnCliente.add(mntmNewMenuItem);
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "Cadastrar novo cliente");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			card.show(frame.getContentPane(), "name_6126640247321");
+		}
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "Cadastrar novo cliente");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			card.show(frame.getContentPane(), "name_6126640247321");
+		}
 	}
 
 	private class SwingAction extends AbstractAction {

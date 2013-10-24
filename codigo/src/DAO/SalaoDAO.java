@@ -44,7 +44,7 @@ public class SalaoDAO {
 	public void insertCliente(Cliente cliente) throws Exception {
 		conecta();
 
-		String cmd = "INSERT INTO cliente (`nome`, `telefone`, `email`, `endereco`) VALUES (?, ?, ?, ?)";
+		String cmd = "INSERT INTO cliente (nome, telefone, email, endereco) VALUES (?, ?, ?, ?)";
 
 		try {
 			st = db.prepareStatement(cmd);
@@ -205,7 +205,7 @@ public class SalaoDAO {
 
 	public void insertProfissional(Profissional prof) throws Exception {
 		conecta();
-		String cmd = "INSERT INTO `profissional` (`nome`, `Telefone`, `endereco`, `email`, `CPF`) VALUES (?,?,?,?,?)";
+		String cmd = "INSERT INTO profissional (nome, Telefone, endereco, email, CPF) VALUES (?,?,?,?,?)";
 
 		try {
 
@@ -368,7 +368,7 @@ public class SalaoDAO {
 
 	public void insertProduto(Produto produto)throws Exception  {
 		conecta();
-		String cmd = "INSERT INTO `produto` (`codigoDeBarras`, `nome`, `valorDeCusto`, `valorDeVenda`, `estoque`, `estoqueminimo`) VALUES (?,?,?,?,?,?)";
+		String cmd = "INSERT INTO produto (codigoDeBarras, nome, valorDeCusto, valorDeVenda, estoque, estoqueminimo) VALUES (?,?,?,?,?,?)";
 
 		try {
 			st = db.prepareStatement(cmd);
@@ -491,7 +491,7 @@ public class SalaoDAO {
 
 	public void insertAtendimento(Atendimento atend)throws Exception  {
 		conecta();
-		String cmd = "INSERT INTO `atendimento` (`codCliente`, `codProfissional`, `codVendaProdutos`, `valorFinal`, `data`) VALUES (?,?,?,,?,now())";
+		String cmd = "INSERT INTO atendimento (codCliente, codProfissional, codVendaProdutos, valorFinal, data) VALUES (?,?,?,?,now())";
 
 		try {
 			st = db.prepareStatement(cmd);
@@ -521,7 +521,41 @@ public class SalaoDAO {
 		}
 		desconecta();
 	}
+	
+	public void insertHorarioAgenda(Cliente c, Profissional p, Date d, String h)throws Exception  {
+		conecta();
+		Agenda agenda = new Agenda(p, c, d, h);
+		String cmd = "INSERT INTO agenda (profissional, cliente, data, hora) VALUES (?,?,?,?)";
 
+		try {
+			st = db.prepareStatement(cmd);
+			st.setObject(1, agenda.getP());
+			st.setObject(2, agenda.getC());
+			st.setDate(3, agenda.getData());
+			st.setString(4, agenda.getHora());
+			int r = st.executeUpdate();
+
+			if (r != 1) {
+				throw new RuntimeException("Erro ao inserir horário na agenda!");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null) {
+					st.close();
+				}
+				if (db != null) {
+					db.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		desconecta();
+	}
+	
 	public List<Agenda> findAgendaDiaria(Profissional p)throws Exception  {
 		conecta();
 		String cmd = "select * from agenda where profissional= ?";

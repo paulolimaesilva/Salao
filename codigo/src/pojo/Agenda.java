@@ -42,8 +42,8 @@ public class Agenda {
 		this.c = c;
 	}
 
-	public Date getData() {
-		return data;
+	public java.sql.Date getData() {
+		return (java.sql.Date) data;
 	}
 
 	public void setData(Date data) {

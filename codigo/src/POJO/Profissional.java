@@ -7,27 +7,26 @@ public class Profissional {
 	private String telefone;
 	private String endereco;
 	private String email;
-	private String CPF;
-
+	
 	public Profissional(String nome, String telefone, String endereco,
-			String email, String CPF) {
+			String email) {
 		super();
 		this.nome = nome;
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.email = email;
-		this.CPF = CPF;
+
 	}
 	
 	public Profissional(int codigo, String nome, String telefone, String endereco,
-			String email, String CPF) {
+			String email) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.email = email;
-		this.CPF = CPF;
+
 	}
 
 	public String getNome() {
@@ -62,19 +61,11 @@ public class Profissional {
 		this.email = email;
 	}
 
-	public String getCPF() {
-		return CPF;
-	}
-
-	public void setCPF(String cPF) {
-		CPF = cPF;
-	}
 
 	@Override
 	public String toString() {
 		return "Profissional [nome=" + nome + ", telefone=" + telefone
-				+ ", endereco=" + endereco + ", email=" + email + ", CPF="
-				+ CPF + "]";
+				+ ", endereco=" + endereco + ", email=" + email + "]";
 	}
 
 }
