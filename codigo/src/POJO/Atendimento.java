@@ -12,7 +12,7 @@ public class Atendimento {
 	private Date data;
 	
 	public Atendimento(int codCliente, int codProfissional,
-			int codVendaProdutos, double valorFinal, Date data) {
+			int codVendaProdutos, Date data, double valorFinal) {
 		super();
 		this.codCliente = codCliente;
 		this.codProfissional = codProfissional;

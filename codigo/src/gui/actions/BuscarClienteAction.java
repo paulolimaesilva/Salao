@@ -32,9 +32,19 @@ public class BuscarClienteAction extends AbstractAction {
 		if (panel.getTelefone() != null && panel.getNome() != null) {
 			JOptionPane.showMessageDialog(null, "Digite apenas um campo");
 		} else if (panel.getTelefone() != null) {
-			c = dao.findClienteByTelefone(panel.getTelefone());
+			try {
+				c = dao.findClienteByTelefone(panel.getTelefone());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (panel.getNome() != null) {
-			c = dao.findClienteByNome(panel.getNome());
+			try {
+				c = dao.findClienteByNome(panel.getNome());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		JOptionPane.showMessageDialog(null, c.toString());
 	}

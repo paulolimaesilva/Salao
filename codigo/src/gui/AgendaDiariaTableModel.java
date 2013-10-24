@@ -14,7 +14,7 @@ public class AgendaDiariaTableModel extends AbstractTableModel {
 	private Profissional p;
 	private List<Agenda> agenda;
 
-	public AgendaDiariaTableModel(Profissional p) {
+	public AgendaDiariaTableModel(Profissional p) throws Exception {
 		this.p = p;
 		SalaoDAO dao = new SalaoDAO();
 		agenda = dao.findAgendaDiaria(p);

@@ -26,6 +26,11 @@ public class CadastrarClienteAction extends AbstractAction {
 		Cliente c = panel.getCliente();
 		//System.out.println(c);
 		SalaoDAO dao = new SalaoDAO();
-		dao.insertCliente(c);
+		try {
+			dao.insertCliente(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
