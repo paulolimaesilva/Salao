@@ -17,6 +17,10 @@ public class Agenda {
 		this.hora = hora;
 	}
 	
+	public Agenda(){
+		
+	}
+	
 	public Agenda(int codigo, Profissional p, Cliente c, Date data, String hora) {
 		super();
 		this.codigo = codigo;

@@ -1,9 +1,13 @@
 package gui;
 
+import gui.actions.AgendaFecharAction;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,118 +17,70 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
+
 import javax.swing.Box;
 
 import pojo.Profissional;
 
 public class JAgendaDiariaPanel extends JPanel {
 
-	private JTable table;
-	Profissional p =  new Profissional("", "","", "");
-	AgendaDiariaTableModel tableModel = new AgendaDiariaTableModel(p);
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create the panel.
-	 * 
-	 * @throws Exception
-	 */
-	public JAgendaDiariaPanel() throws Exception {
-		setBackground(Color.WHITE);
-		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	JTable table;
+	JFrame frame;
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		add(verticalStrut_1, "2, 2");
+	private CardLayout card;
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		add(verticalStrut, "46, 2");
-		
-		table = new JTable();
-		add(table, "4, 4, 41, 30, fill, fill");
-
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		add(horizontalStrut_1, "2, 34");
-
-
+	public JFrame getFrame() {
+		return frame;
 	}
+
+	public CardLayout getCard() {
+		return card;
+	}
+
+	public JAgendaDiariaPanel(JFrame frame, CardLayout card) {
+		setBackground(Color.WHITE);
+		this.frame = frame;
+		this.card = card;
+
+		setLayout(new BorderLayout());
+		try {
+			table = new JTable(new AgendaDiariaTableModel());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		add(BorderLayout.CENTER, table);
+
+		JButton button = new JButton(new AgendaFecharAction(this));
+		button.setToolTipText("Cancelar cadastro da conta");
+		button.setMnemonic(KeyEvent.VK_N);
+		add(BorderLayout.SOUTH, button);
+	}
+
+    /**
+     * Create the GUI and show it. For thread safety, this method should be
+     * invoked from the event-dispatching thread.
+     */
+    private static void createAndShowGUI() {
+            JFrame frame = new JFrame("Teste");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            frame.getContentPane().add(new JAgendaDiariaPanel(null, null));
+
+            frame.pack();
+            frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+            // Schedule a job for the event-dispatching thread:
+            // creating and showing this application's GUI.
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                            createAndShowGUI();
+                    }
+            });
+    }
 }

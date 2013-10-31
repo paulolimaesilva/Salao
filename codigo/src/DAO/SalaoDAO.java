@@ -1,7 +1,5 @@
 package dao;
 
-import java.util.List;
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,13 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Properties;
+import java.util.List;
 
+import pojo.Agenda;
 import pojo.Atendimento;
 import pojo.Cliente;
 import pojo.Produto;
 import pojo.Profissional;
-import pojo.Agenda;
 
 public class SalaoDAO {
 
@@ -205,7 +203,7 @@ public class SalaoDAO {
 
 	public void insertProfissional(Profissional prof) throws Exception {
 		conecta();
-		String cmd = "INSERT INTO profissional (nome, Telefone, endereco, email, CPF) VALUES (?,?,?,?,?)";
+		String cmd = " ";
 
 		try {
 
@@ -214,7 +212,6 @@ public class SalaoDAO {
 			st.setString(2, prof.getTelefone());
 			st.setString(3, prof.getEndereco());
 			st.setString(4, prof.getEmail());
-			st.setString(5, prof.getCPF());
 			int r = st.executeUpdate();
 
 			if (r != 1) {
@@ -256,50 +253,7 @@ public class SalaoDAO {
 				String telefone = rs.getString(3);
 				String email = rs.getString(4);
 				String endereco = rs.getString(5);
-				String CPF = rs.getString(6);
-				prof = new Profissional(nomeBD, telefone, endereco, email, CPF);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (st != null) {
-					st.close();
-				}
-				if (db != null) {
-					db.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-		desconecta();
-		return prof;
-	}
-
-	public Profissional findProfissionalByCPF(String CPF) throws Exception {
-		conecta();
-		Profissional prof = null;
-		String cmd = "select * from profissional where cpf like ?";
-		ResultSet rs = null;
-
-		try {
-			st = db.prepareStatement(cmd);
-			st.setString(1, CPF);
-			rs = st.executeQuery();
-
-			while (rs.next()) {
-				// copiar dados para POJO
-				String nome = rs.getString(2);
-				String telefone = rs.getString(3);
-				String email = rs.getString(4);
-				String endereco = rs.getString(5);
-				String CPFBD = rs.getString("cpf");
-				prof = new Profissional(nome, telefone, endereco, email, CPFBD);
+				prof = new Profissional(nomeBD, telefone, endereco, email);
 			}
 
 		} catch (Exception e) {
@@ -340,9 +294,8 @@ public class SalaoDAO {
 				String telefone = rs.getString(3);
 				String email = rs.getString(4);
 				String endereco = rs.getString(5);
-				String CPF = rs.getString(6);
 				prof = new Profissional(codigoBD, nome, telefone, endereco,
-						email, CPF);
+						email);
 			}
 
 		} catch (Exception e) {
@@ -366,7 +319,7 @@ public class SalaoDAO {
 		return prof;
 	}
 
-	public void insertProduto(Produto produto)throws Exception  {
+	public void insertProduto(Produto produto) throws Exception {
 		conecta();
 		String cmd = "INSERT INTO produto (codigoDeBarras, nome, valorDeCusto, valorDeVenda, estoque, estoqueminimo) VALUES (?,?,?,?,?,?)";
 
@@ -401,7 +354,8 @@ public class SalaoDAO {
 		desconecta();
 	}
 
-	public Produto findProdutoByCodigoDeBarras(int codigoDeBarras) throws Exception {
+	public Produto findProdutoByCodigoDeBarras(int codigoDeBarras)
+			throws Exception {
 		conecta();
 		Produto produto = null;
 		String cmd = "select * from produto where codigoDeBarras like ?";
@@ -445,7 +399,7 @@ public class SalaoDAO {
 		return produto;
 	}
 
-	public Produto findProdutoByNome(String nome)throws Exception  {
+	public Produto findProdutoByNome(String nome) throws Exception {
 		conecta();
 		Produto produto = null;
 		String cmd = "select * from produto where nome like ?";
@@ -489,7 +443,7 @@ public class SalaoDAO {
 		return produto;
 	}
 
-	public void insertAtendimento(Atendimento atend)throws Exception  {
+	public void insertAtendimento(Atendimento atend) throws Exception {
 		conecta();
 		String cmd = "INSERT INTO atendimento (codCliente, codProfissional, codVendaProdutos, valorFinal, data) VALUES (?,?,?,?,now())";
 
@@ -521,8 +475,9 @@ public class SalaoDAO {
 		}
 		desconecta();
 	}
-	
-	public void insertHorarioAgenda(Cliente c, Profissional p, Date d, String h)throws Exception  {
+
+	public void insertHorarioAgenda(Cliente c, Profissional p, Date d, String h)
+			throws Exception {
 		conecta();
 		Agenda agenda = new Agenda(p, c, d, h);
 		String cmd = "INSERT INTO agenda (profissional, cliente, data, hora) VALUES (?,?,?,?)";
@@ -555,8 +510,8 @@ public class SalaoDAO {
 		}
 		desconecta();
 	}
-	
-	public List<Agenda> findAgendaDiaria(Profissional p)throws Exception  {
+
+	public List<Agenda> findAgendaDiaria(Profissional p) throws Exception {
 		conecta();
 		String cmd = "select * from agenda where profissional= ?";
 		List<Agenda> agenda = new ArrayList<Agenda>();
@@ -569,16 +524,15 @@ public class SalaoDAO {
 			rs = st.executeQuery();
 
 			while (rs.next()) {
-				int id = rs.getInt(1);
-				int codProf = rs.getInt(2);
-				int codCliente = rs.getInt(3);
+				int codProf = rs.getInt(1);
+				int codCliente = rs.getInt(2);
+				String hora = rs.getString(3);
 				Date data = rs.getDate(4);
-				String hora = rs.getString(5);
 
 				Profissional profi = findProfissionalByCodigo(codProf);
 				Cliente cliente = findClienteByCodigo(codCliente);
 
-				agenda.add(new Agenda(id, profi, cliente, data, hora));
+				agenda.add(new Agenda(profi, cliente, data, hora));
 			}
 
 		} catch (Exception e) {
